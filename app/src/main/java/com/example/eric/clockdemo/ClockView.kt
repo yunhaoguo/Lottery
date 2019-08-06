@@ -2,10 +2,12 @@ package com.example.eric.clockdemo
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.os.Handler
+import android.provider.MediaStore
 import android.util.AttributeSet
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
@@ -94,7 +96,7 @@ class ClockView : View {
             override fun run() {
                 //10
                 rotateSpeed += 50
-                if (rotateSpeed == 405 && (sDegree % (2 * Math.PI) < Math.PI / 2 || sDegree % (2 * Math.PI) > Math.PI / 4 )) {
+                if (rotateSpeed == 405 && (sDegree % (2 * Math.PI) < Math.PI / 2 && sDegree % (2 * Math.PI) > Math.PI / 4 )) {
                     handler.removeCallbacks(runnable)
                     handler.removeCallbacks(timeRemainRunnable)
                     isPlaying = false
@@ -126,7 +128,10 @@ class ClockView : View {
             builder.setView(dialogView)
             builder.setPositiveButton("领取") {
                 dialog, which ->
-
+                val intentToPickPic = Intent(Intent.ACTION_PICK, null)
+                // 如果限制上传到服务器的图片类型时可以直接写如："image/jpeg 、 image/png等的类型" 所有类型则写 "image/*"
+                intentToPickPic.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/jpeg")
+                startActivityForResult(intentToPickPic, 222)
             }
             builder.show()
         }
