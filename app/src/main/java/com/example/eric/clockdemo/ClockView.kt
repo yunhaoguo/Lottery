@@ -72,7 +72,7 @@ class ClockView : View {
         timeRemainRunnable = object : Runnable {
             override fun run() {
                 //10
-                rotateSpeed += 50
+                rotateSpeed += 20
                 if (rotateSpeed == 405 && (sDegree % (2 * Math.PI) > Math.PI / 2 || sDegree % (2 * Math.PI) < Math.PI / 4 )) {
                     handler.removeCallbacks(runnable)
                     handler.removeCallbacks(timeRemainRunnable)
@@ -80,11 +80,12 @@ class ClockView : View {
                     isPlaying = false
                     activity.btn.isEnabled = true
                     activity.remainTimes -= 1
+                    activity.tvRemainTimes?.text = "您还有${activity.remainTimes}次机会"
                     if (activity.remainTimes == 1) {
                         win100percent()
                     }
                 } else if (rotateSpeed == 405) {
-                    rotateSpeed -= 50
+                    rotateSpeed -= 20
                     handler.postDelayed(this, (200 + Math.random() * 1000).toLong())
                 } else {
                     handler.postDelayed(this, (200 + Math.random() * 1000).toLong())
@@ -95,18 +96,19 @@ class ClockView : View {
         winTimeRemainRunnable = object : Runnable {
             override fun run() {
                 //10
-                rotateSpeed += 50
+                rotateSpeed += 20
                 if (rotateSpeed == 405 && (sDegree % (2 * Math.PI) < Math.PI / 2 && sDegree % (2 * Math.PI) > Math.PI / 4 )) {
                     handler.removeCallbacks(runnable)
                     handler.removeCallbacks(timeRemainRunnable)
                     isPlaying = false
                     activity.remainTimes -= 1
+                    activity.tvRemainTimes?.visibility = GONE
                     if (activity.remainTimes == 0) {
                         showWinDialog()
                         activity.btn.isEnabled = false
                     }
                 } else if (rotateSpeed == 405) {
-                    rotateSpeed -= 50
+                    rotateSpeed -= 20
                     handler.postDelayed(this, 300)
                 } else {
                     handler.postDelayed(this, 300)
@@ -188,11 +190,11 @@ class ClockView : View {
         if (!isPlaying) {
             if (!willWin) {
                 handler.postDelayed(runnable, TIME_SPEED)
-                handler.postDelayed(timeRemainRunnable, 2000)
+                handler.postDelayed(timeRemainRunnable, 800)
                 isPlaying = true
             } else {
                 handler.postDelayed(runnable, TIME_SPEED)
-                handler.postDelayed(winTimeRemainRunnable, 2000)
+                handler.postDelayed(winTimeRemainRunnable, 800)
                 isPlaying = true
             }
         }

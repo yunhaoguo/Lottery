@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.view.View
+import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_main.*
@@ -21,6 +22,7 @@ class MainActivity : AppCompatActivity() {
 
     var remainTimes = 3
 
+    var tvRemainTimes: TextView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -35,7 +37,8 @@ class MainActivity : AppCompatActivity() {
                 111)
         }
 
-
+        tvRemainTimes = findViewById(R.id.tv_remain_times)
+        tvRemainTimes?.text = "您还有${remainTimes}次机会"
         btn.setOnClickListener {
             btn.isEnabled = false
             clock_view.start()
@@ -62,7 +65,7 @@ class MainActivity : AppCompatActivity() {
                     }
             }
         }
-        super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
 }
